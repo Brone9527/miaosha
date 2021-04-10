@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 这里填写对应的Dao文件所在的路径 -->
+<mapper namespace="com.nicho.dao.DepartmentDao"   >
+    <!-- 填写数据库里实例Person对应的表的表名 -->
+    <!-- 这里是作为一个变量使用 -->
+    <sql id="table">department</sql>
+
+
+    <cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>
+
+    <!-- id属性填写Dao文件里的函数名称 xxType是参数或是结果的类型根据情况填写 -->
+    <!-- 查询所有   -->
+    <select id="getAll" resultType="com.nicho.bean.Department">
+        SELECT
+        *
+        FROM
+        <include refid="table" />
+    </select>
+
+
+    <!-- 根据id查询 -->
+    <!--<select id="getDepartmentById" resultType="com.nicho.bean.Department">-->
+        <!--SELECT-->
+        <!--*-->
+        <!--FROM-->
+        <!--<include refid="table"/>-->
+        <!--WHERE-->
+        <!--department_id = #{department_id}-->
+    <!--</select>-->
+
+    <resultMap id="personDepartmentMap" type="com.nicho.bean.Department">
+        <id property="department_id" column="department_id" />
+        <result column="department_name" property="department_name"/>
+        <result column="department_tel" property="department_tel"/>
+        <result column="department_num" property="department_num"/>
+
+
+        <association property="person" javaType="com.nicho.bean.Person" >
+            <!-- id:声明主键，表示 college_id 是关联查询对象的唯一标识-->
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="mobile" property="mobile"/>
+            <result column="attr"  property="attr" />
+            <result column="level" property="level"/>
+            <result column="work_id" property="work_time"/>
+        </association>
+
+
+    </resultMap>
+
+    <!-- 根据id查询两个表的结果 -->
+    <select id="getDepartmentById" resultMap="personDepartmentMap">
+        SELECT
+        p.id,p.name,p.mobile,p.attr,p.level,p.work_time,d.department_tel,d.department_name ,d.department_id ,d.department_num
+        FROM department d
+        LEFT JOIN
+        person p on p.department_id = d.department_id
+        WHERE
+        d.department_id = #{department_id}
+
+    </select>
+
+    <!-- 根据名称查询 -->
+    <select id="getDepartmentByName" resultType="com.nicho.bean.Department">
+        SELECT
+        *
+        FROM
+        <include refid="table"/>
+        WHERE
+        name in
+        <foreach collection="department_name" item="department_name" index="index" open="(" close=")" separator=",">
+            #{department_name}
+        </foreach>
+
+    </select>
+
+    <!-- 增 -->
+    <insert id="add" parameterType="com.nicho.bean.Department">
+        INSERT INTO
+        <include refid="table"/>
+        (department_name,department_num,department_tel)
+        VALUES
+        (#{department_name},#{department_num},#{department_tel})
+    </insert>
+
+    <!-- 改 -->
+    <update id="update" parameterType="com.nicho.bean.Department">
+        UPDATE
+        <include refid="table"/>
+        SET
+        <!--<if test="name != null">name = #{name}</if>-->
+        department_name  = #{department_name},department_tel= #{department_tel},department_num = #{department_num},department_id = #{department_id}
+        WHERE
+        department_id = #{department_id}
+    </update>
+
+    <!-- 删 -->
+    <delete id="delete" parameterType="com.nicho.bean.Department">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE
+        department_id = #{department_id}
+    </delete>
+</mapper>
