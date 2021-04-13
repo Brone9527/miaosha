@@ -28,7 +28,7 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
-    // 设置访问路由值为路径
+    // 设置访问路由值为路径---List报文写入excel
     @RequestMapping(value = "/query",method= RequestMethod.POST)
     public List  index(@RequestBody Map<String,Object> params)throws IllegalAccessException{
         //List<Person> list = personService.write2Excel(（List）params.get("tradeList"));
