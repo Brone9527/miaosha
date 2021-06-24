@@ -1,0 +1,26 @@
+1、项目访问地址
+本地：http://localhost:8083//login/to_login
+虚拟机：http://192.168.137.3:8080/login/to_login
+
+2、redis启动
+本地：（需要手动启动）
+    cd  C:\MySoftTool\redis
+    redis-server.exe redis.windows.conf
+
+虚拟机：（默认启动状态）
+    linux：
+    root
+    123456
+    redis:
+    auth 123456
+    ./redis-server  /usr/local/redis/redis.conf
+
+系统目录：
+    cd /usr/local/redis/src
+                   ./redis-cli
+
+
+3、rabbitmq启动（需要手动启动）
+   启动：rabbitmq-server
+   页面登录：http://192.168.137.3:15672
+   账号密码：rabbitmq  rabbitmq
