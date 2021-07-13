@@ -53,7 +53,7 @@ public class BookController {
     public Result<Book> getRedis(@RequestBody Map<String,Object> params){
         String redisKeys = params.get("redisKeys").toString();
         Book book = redisService.get(BookKey.getById , ""+redisKeys, Book.class);
-        log.info(book+"查询成功");
+        log.info("查询成功: "+book);
         return Result.success(book);
 
     }

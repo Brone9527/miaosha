@@ -7,6 +7,9 @@
     cd  C:\MySoftTool\redis
     redis-server.exe redis.windows.conf
 
+    客户端操作
+    redis-cli.exe
+
 虚拟机：（默认启动状态）
     linux：
     root
